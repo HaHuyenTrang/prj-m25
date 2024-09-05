@@ -13,49 +13,35 @@ export default function page() {
   // validate
   const [inputValue, setInputValue] = useState({
     email: "",
-    name:"",
+    name: "",
     password: ""
   })
 
-  const [error, setError] = useState({
-    email: "",
-    name:"",
-    password: ""
-  })
+  const account = {
+    name: "admin123",
+    email: "admin123@gmail.com",
+    password: "admin1234"
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    let valid = true
-    if (!inputValue.email) {
-      error.email = "Email không được để trống";
-      valid = false;
-    } else {
-      error.email = "";
-    }
-    if (!inputValue.name) {
-      error.name = "Tên không được để trống";
-      valid = false;
-    } else {
-      error.name = "";
-    }
+    if (inputValue.name === account.name && inputValue.email === account.email && inputValue.password === account.password) {
+      alert("Đăng nhập thanhf công");
+      setTimeout(() => {
+        router.push("/admin")
+      }, 1000);
 
-    if (!inputValue.password) {
-      error.password = "Mật khẩu không được để trống";
-      valid = false;
     } else {
-      error.password = "";
+      alert("Tài khoản hoặc mật khẩu không đúng")
     }
+  }
 
-    // if (valid) {
-    //   if (inputValue.email === admin.email && inputValue.password === admin.password) {
-    //     navigate("/admin")
-    //   } else {
-    //     error.password = "Tài khoản hoặc mật khẩu không đúng"
-    //     valid = false
-    //   }
-    // }
-
-    setError({ ...error })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setInputValue({
+      ...inputValue,
+      [name]: value
+    })
   }
 
   return (
@@ -70,27 +56,18 @@ export default function page() {
         </div>
         <b>_____________________or_____________________</b>
         <br />
-        
+
         <b>Email</b>
         <br />
-        <input className=' rounded w-[300px] text-center' type="text" name="email" id="" placeholder='email' required />
-        {
-                        error.email && <span style={{ color: "red", fontSize: 14 }}>{error.email}</span>
-                    }
+        <input className=' rounded w-[300px] text-center' type="text" name="email" id="" placeholder='email' required onChange={handleChange} />
         <br />
         <b>Tên</b>
         <br />
-        <input className=' rounded w-[300px] text-center' type="text" name="name" id="" placeholder='tên' required />
-        {
-                        error.name && <span style={{ color: "red", fontSize: 14 }}>{error.name}</span>
-                    }
+        <input className=' rounded w-[300px] text-center' type="text" name="name" id="" placeholder='tên' required onChange={handleChange} />
         <br />
         <b>Mật khẩu</b>
         <br />
-        <input className=' rounded w-[300px] text-center' type="password" name="password" id="" placeholder='mật khẩu' required />
-        {
-                        error.password && <span style={{ color: "red", fontSize: 14 }}>{error.password}</span>
-                    }
+        <input className=' rounded w-[300px] text-center' type="password" name="password" id="" placeholder='mật khẩu' required onChange={handleChange} />
         <br />
         <br />
         <button className=' text-white border border-w rounded  w-[300px] text-center bg-pink-500' onClick={handleSubmit} type='submit' >Đăng nhập 🎉</button>
