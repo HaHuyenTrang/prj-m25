@@ -2,11 +2,16 @@
 import React, { useEffect, useState } from 'react';
 import "./admin.css"
 import "../sign-in/page"
-import { Navigate } from 'react-router-dom';
+import { User} from '../interface/user';
+import { getAllUser, searchUser, statusUser } from '../store/user/userStore';
+
+
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function Admin() {
-  
+  // đăng xuất
   const router = useRouter();
   const handleClick = () => {
     const confirmLogout = confirm("Bạn có chắc chắn đăng xuất không?");
@@ -15,8 +20,48 @@ export default function Admin() {
 
     }
   }
+// lấy user
+  const users = useSelector((state:any)=> state.userStore.user);
+  const [selectedId, setselectedId] = useState<number | null>(null)
+  const route=useRouter();
+  const dispatch = useDispatch();
+  const [search, setSearch] = useState<string>("");
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
+  useEffect(() => {
+    dispatch(getAllUser());
+  }, [dispatch]);
 
+  useEffect(() => {
+    setFilteredUsers(users);
+  }, [users]);
 
+  // hàm tìm kiêm
+  const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+    setSearch(searchValue);
+
+    if (!searchValue) {
+      setFilteredUsers(users);
+    } else {
+      const result = await dispatch(searchUser(searchValue));
+      setFilteredUsers(result.payload);
+    }
+  };
+  // hàm khóa user
+  const handleBlock = (id: number) => {
+    setselectedId(id)
+    dispatch(statusUser({ id, status: 1 }))
+    dispatch(getAllUser())
+    setselectedId(null)
+  }
+  // hàm mở khóa user
+  const handleUnBlock = (id: number) => {
+    setselectedId(id)
+    dispatch(statusUser({ id, status: 0 }))
+    dispatch(getAllUser())
+    setselectedId(null)
+
+  }
   return (
     <>
     <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"></link>
@@ -83,7 +128,7 @@ export default function Admin() {
           <a href="#" className="nav-link">Loại</a>
           <form action="#">
             <div className="form-input">
-              <input type="text" placeholder="Tìm kiếm..." />
+              <input type="text" placeholder="Tìm kiếm..." onChange={handleSearch} value={search} />
               <button type="submit" className="search-btn" style={{ margin: 0 }}>
                 <i className="bx bx-search" />
               </button>
@@ -161,11 +206,11 @@ export default function Admin() {
                     <th>Trạng thái</th>
                   </tr>
                 </thead>
-                {/* <tbody>
-                  {filteredUsers.map((item: Users) => (
+                <tbody>
+                  {filteredUsers.map((item: User) => (
                     <tr key={item.id} style={{ opacity: item.status === 1 ? 0.5 : 1 }}>
                       <td style={{ marginTop: "80%" }}>{item.id}</td>
-                      <td>{item.userName}</td>
+                      <td>{item.name}</td>
                       <td>{item.email}</td>
                       <td>
                         {
@@ -174,7 +219,7 @@ export default function Admin() {
                       </td>
                     </tr>
                   ))}
-                </tbody> */}
+                </tbody>
               </table>
             </div>
           </div>

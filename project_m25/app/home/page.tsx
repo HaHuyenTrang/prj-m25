@@ -23,7 +23,7 @@ export default function page() {
                         <button className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng kí</button>
                     </div>
                 </div>
-                <p className='font-bold'>-------------------------------------------------------------------------------------------------------------------------------------------
+                <p className='font-bold'>---------------------------------------------------------------------------------------------------------------------------------------------------------
                     <i className="fa-solid fa-cake-candles text-3xl text-red-600  "></i>
                     -<i className="fa-solid fa-gift text-3xl text-pink-600"></i>
                     -<i className="fa-solid fa-heart text-3xl text-red-900"></i>---------------------------------------

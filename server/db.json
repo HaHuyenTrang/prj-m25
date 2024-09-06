@@ -1,14 +1,25 @@
 {
-    "user":[
-        {
-            "email":"trang2005@gmail.com",
-            "name":"trang2005",
-            "passwwork":"2005"
-        },
-        {
-            "email":"chau2013@gmail.com",
-            "name":"chau2013",
-            "passwwork":"chau2013"
-        }
-    ]
+  "user": [
+    {
+      "id": 1,
+      "email": "trang2005@gmail.com",
+      "name": "trang2005",
+      "passwwork": "2005",
+      "status": 1
+    },
+    {
+      "id": 2,
+      "email": "chau2013@gmail.com",
+      "name": "chau2013",
+      "passwwork": "chau2013",
+      "status": 0
+    },
+    {
+      "id": 3,
+      "email": "lien2000@gmail.com",
+      "name": "lien2000",
+      "passwwork": "lien2000",
+      "status": 0
+    }
+  ]
 }

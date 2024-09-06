@@ -1,4 +1,8 @@
-export interface Admin{
+export interface User{
+    id:number,
     email: string, 
-    password: string
+    name:string,
+    password: string,
+    cart:[],
+    status:number,
 }
