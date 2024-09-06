@@ -50,6 +50,7 @@ export default function page() {
     setError({ ...error })
   }
   return (
+    <div className="flex justify-center my-11">
 
     <div onSubmit={handleSubmit} className="">
       <div className='border border-black rounded h-auto w-[350px] p-7  border-8 border-transparent bg-gradient-to-r from-pink-300 z-[-9] p-[12px]'>
@@ -94,6 +95,7 @@ export default function page() {
         </div>
 
       </div>
+    </div>
     </div>
   )
 }

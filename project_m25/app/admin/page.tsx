@@ -11,7 +11,7 @@ export default function Admin() {
   const handleClick = () => {
     const confirmLogout = confirm("Bạn có chắc chắn đăng xuất không?");
     if (confirmLogout){
-      router.push("/sign-up");
+      router.push("/sign-in");
 
     }
   }
