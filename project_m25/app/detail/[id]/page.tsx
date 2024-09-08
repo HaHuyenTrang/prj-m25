@@ -3,16 +3,16 @@ import React, { useEffect, useState } from 'react'
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import '../sign-up/page'
-import "../detail/[id]/page"
+import "../../sign-up/page"
 import { useDispatch, useSelector } from 'react-redux';
-import { useRouter } from 'next/navigation';
-import { addCarts, getAllProduct } from '../store/product/productStore';
-import { getAllUser } from '../store/user/userStore';
+import { usePathname, useRouter } from 'next/navigation';
+import { addCarts, getAllProduct, getProductById } from '@/app/store/product/productStore';
+import { getAllUser } from '../../store/user/userStore';
+import { useParams } from 'react-router-dom';
+import { Product } from '@/app/interface/product';
 // import 'swiper/swiper-bundle.min.css';
 export default function page() {
     const [account, setAccount] = useState(JSON.parse(localStorage.getItem("account") || "null"));
-    const cupcake: any = useSelector(((state: any) => state.productStore.list));
     //   const cart = useSelector((state: any) => state.productReducer.cart);
     const users = useSelector((state: any) => state.userStore.user)
     const route = useRouter();
@@ -25,10 +25,10 @@ export default function page() {
         dispatch(getAllUser())
     }, [dispatch]);
 
-    const handleDetail = (id: number) => {
-        console.log(id);
-        route.push(`/detail/${id}`);
-    };
+    //   const handleDetail = (id: number) => {
+    //     console.log(id);
+    //     navigate(`/detail/${id}`);
+    //   };
 
     const handleLogout = () => {
         const confirmLogOut = window.confirm("Bạn có chắc chắn muốn đăng xuất không?");
@@ -57,6 +57,21 @@ export default function page() {
             // navigate("/login");
         }
     };
+    const pathName = usePathname(); // Get path name from Next.js
+    const id = pathName.split("/").pop(); // Extract ID from the URL
+    const cupcakes: any = useSelector(((state: any) => state.productStore.productDetail))
+    console.log(cupcakes)
+
+    useEffect(() => {
+        if (id) {
+            dispatch(getProductById(Number(id)))
+        }
+    }, [dispatch, id])
+
+
+    // const product = cupcakes.find((item: Product) => item.id.toString() === id);
+    // console.log(product)
+
     return (
         <div className='bg-red-400 w-auto h-auto'>
             <div className='bg-yellow-50 ' >
@@ -142,79 +157,62 @@ export default function page() {
             </div>
             <br />
             <br />
-            {/* render sản phẩm */}
-            <div className='flex flex-wrap gap-[30px]   justify-center '>
-                {cupcake.map((item: any) => {
-                    return <div className=' border border-w bg-yellow-50 w-[250px] p-3 rounded'>
-                        <b className=' text-red-800'> <i className="fa-solid fa-star"></i>{item.name}</b>
+            {/* render chi tiết sản phẩm */}
 
-                        <img onClick={() => handleDetail(item.id)} className='w-[250px] h-[200px]' src={item.img} alt="" />
+            <div className=' bg-yellow-50' style={{ display: "flex" }} >
+                <ul className='item-flower' key={cupcakes.id} style={{ width: "800px", height: "550px", padding: "40px" }} >
+                    <li className='img-prd' ><img src={cupcakes.img} style={{ width: "600px", height: "400px" }} alt="" /></li>
+                    {/* <li>{index+1}</li> */}
+                    <br />
+                    <br />
+                    <li><b style={{ fontSize: "30px" }}><i className="fa-solid fa-star"></i>{cupcakes.name}</b></li>
 
-
-                        <div className='flex items-center gap-2 text-red-500'><i className="fa-solid fa-heart"></i>
-                            <p>{item.describe}</p>
-                        </div>
-                        <p className='text-red-500 font-bold'>----------------------------------</p>
-                        <b className='flex justify-center items-center'><i className="fa-solid fa-money-bill"></i> {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-
-                            <button className='border bg-red-500 p-1 rounded w-[80px] text-white'>Mua</button>
-                        </b>
-
+                </ul>
+                <ul className='item-flower' style={{ fontSize: "15px", width: "800px", height: "550px", padding: "30px", paddingTop: "80px" }}>
+                    <h3 className='font-bold text-3xl text-red-500' >Cupcake</h3>
+                    <div className='ml-14'>
+                    Thân em zừa ú lại zừa mặp <br />
+                    Bảy nổi ba chìm với sốt bơ <br />
+                    Rắn nát phụ thuộc tay (nhỏ) chủ tịm <br />
+                    Mà em vững giữ giá vàng son!
                     </div>
-                })}
-                {/*  */}
-            </div>
-            <br />
-            <div className='flex justify-center'>
-                <b className='text-red-900' >-------------------------------------------------------------------------------------------------------------------------------------------------------------------------</b>
+                  <br />
+                    <div className='ml-20'>
+                        <ul className=' gap-[50px]'>
+                            <li className='font-bold text-2xl text-red-700'><i className="fa-solid fa-barcode"></i> Xuất xứ-nguồn gốc rõ ràng</li>
+                            <li className='font-bold text-2xl text-red-700'><i className="fa-solid fa-tag"></i> Giá cả thị trường hợp lí</li>
+                            <li className='font-bold text-2xl text-red-700'><i className="fa-solid fa-cart-shopping"></i> Mua sắm tiện lợi, dân dụng</li>
+                        </ul>
+                    </div>
+                       <li>
+                      <br />
+                        <ul key={cupcakes.id}  >
+                         
 
-            </div>
-            <br />
-            <div className='flex justify-center'>
-                <div className='border border-w bg-yellow-50 w-[1090px] rounded p-3 '>
-                    <p className='text-3xl text-red-800'><i className="fa-solid fa-bug"></i></p>
+                            <li >
+                                {/* <b style={{ fontSize: "25px" }} className='cl-price'>{cupcakes.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b> */}
+                            </li>
+                            <br />
+                            <li >Hình thức: {cupcakes.expression}</li>
+                            <div className='button-buy' style={{ display: "flex", justifyContent: "center" }}>
+                                {/* <li><button onClick={handleDetail}>Xem chi tiết</button></li> */}
 
-                    <div className='flex justify-center' >
-                        <div>
-                            <b className='m-8'>Giới Thiệu</b>
-                            <div className='flex ml-8 items-center'>
-                                <p>sản phẩm dùng sữa tươi không chất bảo quản, trang trại tại nhà, trứng, lúa mạch tại trang trại của cửa hàng.</p>
-                                <p className='border bg-red-900 text-white font-bold p-3 rounded flex justify-center'>
-                                    uy tín, chất lượng làm nên thương hiệu!!
-                                </p>
                             </div>
-                            <p className='font-bold text-red-900'>Huyen Trang ❤️</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <br />
-            <div className='flex justify-center'>
-                <b className='text-red-900' >-------------------------------------------------------------------------------------------------------------------------------------------------------------------------</b>
+                            <li>Mô tả bánh: {cupcakes.describe}</li>
+                            <br />
+                            <li className='flex justify-center'><button className='border border-white bg-red-600 text-white w-[200px] h-[50px] rounded'>Mua </button></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+
 
             </div>
-            <br />
-            <div className='flex justify-center'>
-                <div className='border border-w bg-yellow-50 w-[1090px] rounded p-3 flex gap-4 '>
-                    <div>
-                        <p><img src="https://cdn.tuoitre.vn/2018/5/3/ngot-1525361526527572048447.jpg" alt="" /></p>
-                    </div>
-                    <div>
-                        <b className='text-2xl  text-red-800'><i className="fa-solid fa-image"></i></b>
 
-                        <b className='text-red-500 p-7'>Happy cupcake</b>
-                        <br />
-                        <br />
-                        <br />
-                        <p className='text-red-900'>“Giá trị của món ăn ngon, được quyết định bởi lương tâm của người đầu bếp.”</p>
 
-                        <b className='text-red-500'>----------------------------------------------------------------------------</b>
-                        <br />
-                        <b><i className="fa-solid fa-heart text-red-500"></i>Bạn là người mang đến niềm vui làm bánh cho chúng tôi.</b>
-                    </div>
-                </div>
-            </div>
-            <br />
+
+
             <div className='flex justify-center'>
                 <b className='text-red-900' >-------------------------------------------------------------------------------------------------------------------------------------------------------------------------</b>
 

@@ -1,0 +1,22 @@
+
+.form_addP{
+    /* border: 1px solid rgb(0, 0, 0); */
+    display: inline-block;
+    padding: 30px;
+    background-color: pink;
+    box-shadow: 0 2px 9px rgba(228, 5, 201, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 30px;
+  
+} 
+input{
+    width: 200px;
+    background-color: white;
+
+}
+h2{
+    color: white;
+}
+.Adminnn{
+    margin-left: 40%;
+}

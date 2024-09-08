@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import "./admin.css"
 import "../sign-in/page"
-import { User} from '../interface/user';
+import "../product/page"
+import { User } from '../interface/user';
 import { getAllUser, searchUser, statusUser } from '../store/user/userStore';
 
 
@@ -15,15 +16,16 @@ export default function Admin() {
   const router = useRouter();
   const handleClick = () => {
     const confirmLogout = confirm("Bạn có chắc chắn đăng xuất không?");
-    if (confirmLogout){
+    if (confirmLogout) {
       router.push("/sign-in");
 
     }
   }
-// lấy user
-  const users = useSelector((state:any)=> state.userStore.user);
+  // lấy user
+  const users = useSelector((state: any) => state.userStore.user);
+  console.log(users)
   const [selectedId, setselectedId] = useState<number | null>(null)
-  const route=useRouter();
+  const route = useRouter();
   const dispatch = useDispatch();
   const [search, setSearch] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
@@ -64,7 +66,7 @@ export default function Admin() {
   }
   return (
     <>
-    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"></link>
+      <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"></link>
       {/* SIDEBAR */}
       <section id="sidebar">
         <a href="#" className="brand">
@@ -85,7 +87,7 @@ export default function Admin() {
             </a>
           </li>
           <li>
-            <a href="/category">
+            <a href="/product">
               <i className="bx bxs-doughnut-chart" />
               <span className="text">Danh mục </span>
             </a>
@@ -114,7 +116,7 @@ export default function Admin() {
           <li>
             <a href="#" className="logout" >
               <i className="bx bxs-log-out-circle" />
-              <span onClick={handleClick}  className="text">Đăng xuất</span>
+              <span onClick={handleClick} className="text">Đăng xuất</span>
             </a>
           </li>
         </ul>
