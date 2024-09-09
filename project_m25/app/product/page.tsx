@@ -218,7 +218,7 @@ export default function Category() {
                     <div className="order">
                         <div className="head">
                             <h3>Danh mục</h3>
-                            <button onClick={() => setIsOpen(true)} style={{ width: "200px", margin: 0 }}>Thêm</button>
+                            <button className='border border-white bg-red-600 text-white w-[100px] rounded' onClick={() => setIsOpen(true)} style={{ width: "200px", margin: 0 }}>Thêm</button>
                             <i className="bx bx-filter" />
                         </div>
                         <table>
@@ -238,8 +238,8 @@ export default function Category() {
                                             <td style={{marginTop:"10%"  }}>{item.name}</td>
                                             <td style={{ textAlign: "start",  }}>{item.id}</td>
                                             <td >
-                                                <button className='border border-white bg-pink-500 w-[80px] rounded'>Sửa</button>
-                                                <button className='border border-white bg-pink-500 w-[80px] rounded' onClick={() => handleDeleteCategory(item.id)}>Xóa</button>
+                                                <button className='border border-white bg-red-600 text-white w-[80px] rounded'>Sửa</button>
+                                                <button className='border border-white bg-red-600 text-white w-[80px] rounded' onClick={() => handleDeleteCategory(item.id)}>Xóa</button>
                                             </td>
                                         </tr>
                                     )
@@ -306,7 +306,7 @@ export default function Category() {
                 <br />
                 <br/>
                 <b>Hình thức:</b>
-                <input className='border border-white rounded bg-pink-100'  onChange={handleGetvalueExpression} type="text" name="expression" id="" placeholder="Bó/Bông" />
+                <input className='border border-white rounded bg-pink-100'  onChange={handleGetvalueExpression} type="text" name="expression" id="" placeholder="loại" />
                 <br />
                 <br />
                 <b>Mô tả:</b>

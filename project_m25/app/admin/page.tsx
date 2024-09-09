@@ -4,7 +4,7 @@ import "./admin.css"
 import "../sign-in/page"
 import "../product/page"
 import { User } from '../interface/user';
-import { getAllUser, searchUser, statusUser } from '../store/user/userStore';
+import { addUser, getAllUser, searchUser, statusUser } from '../store/user/userStore';
 
 
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -62,6 +62,39 @@ export default function Admin() {
     dispatch(statusUser({ id, status: 0 }))
     dispatch(getAllUser())
     setselectedId(null)
+
+  }
+  // // hàm thêm user
+  const [getValueInputEmail, setGetvalueInputEmail] = useState<string>("")
+  const [getValueInputName, setGetvalueInputName] = useState<string>("")
+  const [getValueInputPassword, setGetvalueInputPassword] = useState<string>("")
+
+  const handleGetvalueEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGetvalueInputEmail(e.target.value)
+  }
+
+  const handleGetvalueName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGetvalueInputName(e.target.value)
+  }
+
+  const handleGetvaluePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGetvalueInputPassword(e.target.value)
+  }
+
+
+  const [isOpen, setIsOpen] = useState(false);
+  const handleAddUser = () => {
+    const newUser = {
+      email: getValueInputEmail,
+      name: getValueInputName,
+      password: getValueInputPassword,
+
+    }
+    dispatch(addUser(newUser))
+    useEffect(() => {
+      dispatch(getAllUser());
+    }, [dispatch]);
+
 
   }
   return (
@@ -196,7 +229,7 @@ export default function Admin() {
             <div className="order">
               <div className="head">
                 <h3>Bảng Điều Khiển</h3>
-                <i className="bx bx-search" />
+                <p className='border border-white bg-red-600 text-white w-[100px] rounded text-center' onClick={() => setIsOpen(true)}>Thêm User</p>
                 <i className="bx bx-filter" />
               </div>
               <table>
@@ -211,7 +244,7 @@ export default function Admin() {
                 <tbody>
                   {filteredUsers.map((item: User) => (
                     <tr key={item.id} style={{ opacity: item.status === 1 ? 0.5 : 1 }}>
-                      <td style={{ marginTop: "80%" }}>{item.id}</td>
+                      <td style={{ marginTop: "50%" ,marginBottom:"20px" }}>{item.id}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
                       <td>
@@ -228,6 +261,33 @@ export default function Admin() {
         </main>
         {/* MAIN */}
       </section>
+      {isOpen && <div className='overley  p-60  '>
+        <div className='Adminnn  ' style={{ display: "flex", alignItems: "center", height: "50px", marginTop: "-200px", padding: "90px", justifyContent: "center", }}>
+          <div className='border bg-pink-300 p-10 '>
+            <h2 className='font-bold text-2xl'>Thêm User</h2>
+            <br />
+            <b>Email: </b>
+            <input className='border border-white rounded bg-pink-100' onChange={handleGetvalueEmail} type="text" name="email" id="" placeholder='email' />
+            <br />
+            <br />
+            <b>Tên:</b>
+            <input className='border border-white rounded bg-pink-100' onChange={handleGetvalueName} type="text" name="name" id="" placeholder="tên" />
+            <br />
+            <br />
+            <b>Password:</b>
+            <input className='border border-white rounded bg-pink-100' onChange={handleGetvaluePassword} type="password" name="password" id="" placeholder="mật khẩu" />
+            <br />
+            <br />
+         
+            <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+              <button className='border border-white bg-pink-500 w-[100px] rounded' onClick={handleAddUser} >Thêm</button>
+              <button className='border border-white bg-pink-500 w-[100px] rounded' onClick={() => setIsOpen(false)}>Đóng</button>
+            </div>
+
+          </div>
+
+        </div>
+      </div>}
       {/* CONTENT */}
     </>
   );

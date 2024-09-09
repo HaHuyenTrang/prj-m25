@@ -20,6 +20,13 @@
       "name": "lien2000",
       "passwwork": "lien2000",
       "status": 0
+    },
+    {
+      "email": "hoa@gmail.com",
+      "name": "hoa",
+      "password": "hoa123",
+      "id": 4,
+      "status": 1
     }
   ],
   "products": [

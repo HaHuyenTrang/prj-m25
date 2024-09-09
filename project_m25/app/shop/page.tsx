@@ -208,7 +208,7 @@ export default function Shop() {
                     <div className="order">
                         <div className="head">
                             <h3>Sản phẩm</h3>
-                            <button className='border border-white bg-pink-400 w-[80px] rounded' style={{ width: "200px", margin: 0 }} onClick={handleClick}>Thêm sản phẩm</button>
+                            <button className='border border-white bg-red-600 text-white w-[80px] rounded' style={{ width: "200px", margin: 0 }} onClick={handleClick}>Thêm sản phẩm</button>
                             <i className="bx bx-filter" />
                         </div>
                         <table>
@@ -227,15 +227,15 @@ export default function Shop() {
                                     return (
 
                                         <tr className='item-flower' key={item.id}  >
-                                            <td style={{ marginTop: "22%" }}>{item.name}</td>
+                                            <td style={{ marginTop: "15%", marginBottom:"40px" }}>{item.name}</td>
                                             <td
                                                 style={{ textAlign: "start" }}><b className='cl-price'>{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b>
                                             </td>
                                             <td style={{ textAlign: "start" }}>{item.expression}</td>
                                             <td style={{ textAlign: "start" }}><img style={{ width: "50px", height: "50px" }} src={item.img} alt="" /></td>
                                             <td>
-                                                <button className='border border-white bg-pink-400 w-[80px] rounded' onClick={() => handleShowEdit(item)}>Sửa</button>
-                                                <button className='border border-white bg-pink-400 w-[80px] rounded' onClick={() => handleDelete(item.id)}>Xóa</button>
+                                                <button className='border border-white bg-red-600 text-white w-[80px] rounded' onClick={() => handleShowEdit(item)}>Sửa</button>
+                                                <button className='border border-white bg-red-600 text-white w-[80px] rounded' onClick={() => handleDelete(item.id)}>Xóa</button>
                                             </td>
                                         </tr>
                                     )

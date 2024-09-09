@@ -10,7 +10,7 @@ export const getCategory:any=createAsyncThunk("category/getCategory", async()=>{
     return response.data
 })
 
-// lấy category
+// thêm category
 export const addCategory:any = createAsyncThunk("category/addCategory",
     async (category)=>{
         const response = await axios.post("http://localhost:8080/category", category)
