@@ -12,13 +12,24 @@ import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Admin() {
-  // đăng xuất
+  const [admin, setAdmin] = useState<any>([])
   const router = useRouter();
+
+  useEffect(() => {
+    const adminData = localStorage.getItem("admin");
+    if (!adminData) {
+      router.push("/sign-in");
+    } else {
+      setAdmin(JSON.parse(adminData))
+    }
+  }, [router])
+  // đăng xuất
   const handleClick = () => {
-    const confirmLogout = confirm("Bạn có chắc chắn đăng xuất không?");
+    const confirmLogout = window.confirm("Bạn có chắc chắn đăng xuất không?");
     if (confirmLogout) {
       router.push("/sign-in");
-
+      localStorage.removeItem("admin");
+      setAdmin(null)
     }
   }
   // lấy user
@@ -244,7 +255,7 @@ export default function Admin() {
                 <tbody>
                   {filteredUsers.map((item: User) => (
                     <tr key={item.id} style={{ opacity: item.status === 1 ? 0.5 : 1 }}>
-                      <td style={{ marginTop: "50%" ,marginBottom:"20px" }}>{item.id}</td>
+                      <td style={{ marginTop: "50%", marginBottom: "20px" }}>{item.id}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
                       <td>
@@ -278,7 +289,7 @@ export default function Admin() {
             <input className='border border-white rounded bg-pink-100' onChange={handleGetvaluePassword} type="password" name="password" id="" placeholder="mật khẩu" />
             <br />
             <br />
-         
+
             <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
               <button className='border border-white bg-pink-500 w-[100px] rounded' onClick={handleAddUser} >Thêm</button>
               <button className='border border-white bg-pink-500 w-[100px] rounded' onClick={() => setIsOpen(false)}>Đóng</button>
