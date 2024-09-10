@@ -3,16 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import '../login-user/page'
+import '../sign-up/page'
 import "../detail/[id]/page"
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { addCarts, getAllProduct } from '../store/product/productStore';
 import { getAllUser } from '../store/user/userStore';
+import { Product } from '../interface/product';
 // import 'swiper/swiper-bundle.min.css';
 export default function page() {
     const [account, setAccount] = useState(JSON.parse(localStorage.getItem("account") || "null"));
-    const cupcake: any = useSelector(((state: any) => state.productStore.list));
+    const cupcake = useSelector(((state: any) => state.productStore.list));
+
     //   const cart = useSelector((state: any) => state.productReducer.cart);
     const users = useSelector((state: any) => state.userStore.user)
     const route = useRouter();
@@ -34,7 +36,7 @@ export default function page() {
         const confirmLogOut = window.confirm("Bạn có chắc chắn muốn đăng xuất không?");
         if (confirmLogOut) {
             localStorage.removeItem("account");
-            route.push("/login-user");
+            route.push("/sign-up");
             setAccount(null);
         }
     };
@@ -57,19 +59,15 @@ export default function page() {
             // navigate("/login");
         }
     };
-    const hadleMall=()=>{
-        route.push("/cupcakeMall")
-    }
     const hadleBig=()=>{
         route.push("/cupcakeBig")
     }
-    const hadleNew=()=>{
-        route.push("/cupcakeNew")
+    const hadleMall=()=>{
+        route.push("/cupcakeMall")
     }
-    const hadleLogin=()=>{
-        route.push("/login-user")
+    const hadleHome=()=>{
+        route.push("/home")
     }
-  
     return (
         <div className='bg-red-400 w-auto h-auto'>
             <div className='bg-yellow-50 ' >
@@ -82,31 +80,12 @@ export default function page() {
                     </h1>
 
                 </div>
-                {
-                    account ? <>
-                   
-                        <p className='ml-[1000px] ' >
-                            
-                                    <div className='text-sm flex items-center gap-1 '>
-                                     <div className=' bg-red-500 w-[100px] h-[40px] text-yellow-50 rounded p-2 text-center font-bold'> <i className="fa-solid fa-circle-user "></i>{account.name}  </div>
-
-                                        {/* <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button> */}
-                                       
-                                       <div className='mb-5'>
-                                            <button onClick={handleLogout} className='bg-red-500 w-[100px] text-yellow-50 rounded p-2 '>Đăng xuất</button>
-                                        </div> 
-                                    </div>
-                                
-                        </p>
-                     </>:<>
-                        <div className='ml-[1070px]'>
-                            <div className='text-sm  flex gap-5  '>
-                                <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button>
-                                {/* <button onClick={handleLogout} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng xuất</button> */}
-                            </div>
-                        </div>
-                    </>
-                }
+                <div className='ml-[1070px]'>
+                    <div className='text-sm  flex gap-5  '>
+                        <button className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button>
+                        <button onClick={handleLogout} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng xuất</button>
+                    </div>
+                </div>
                 <p className='font-bold'>-------------------------------------------------------------------------------------------------------------------------------------------
                     <i className="fa-solid fa-cake-candles text-3xl text-red-600  "></i>
                     -<i className="fa-solid fa-gift text-3xl text-pink-600"></i>
@@ -114,8 +93,8 @@ export default function page() {
                 </p>
                 <br />
                 <ul className='flex gap-14 justify-center  text-red-900  '>
-                    <li>Trang chủ</li>
-                    <li onClick={hadleNew}>Mới ra mắt</li>
+                    <li onClick={hadleHome}>Trang chủ</li>
+                    <li>Mới ra mắt</li>
                     <li onClick={hadleBig}>Bánh cỡ lớn</li>
                     <li onClick={hadleMall}>Bánh cỡ nhỏ</li>
                 </ul>
@@ -176,7 +155,7 @@ export default function page() {
             <br />
             {/* render sản phẩm */}
             <div className='flex flex-wrap gap-[30px]   justify-center '>
-                {cupcake.map((item: any) => {
+                {cupcake.filter((item: Product) => item.expression === 'vừa ra mắt').map((item: Product, index: any) => {
                     return <div className=' border border-w bg-yellow-50 w-[250px] p-3 rounded'>
                         <b className=' text-red-800'> <i className="fa-solid fa-star"></i>{item.name}</b>
 
@@ -189,7 +168,7 @@ export default function page() {
                         <p className='text-red-500 font-bold'>----------------------------------</p>
                         <b className='flex justify-center items-center'><i className="fa-solid fa-money-bill"></i> {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
 
-                            <button onClick={() => handleAddToCart(item.id)} className='border bg-red-500 p-1 rounded w-[80px] text-white'><i className="fa-solid fa-cart-shopping"></i></button>
+                            <button className='border bg-red-500 p-1 rounded w-[80px] text-white'><i className="fa-solid fa-cart-shopping"></i></button>
                         </b>
 
                     </div>

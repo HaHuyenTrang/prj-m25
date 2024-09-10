@@ -80,7 +80,7 @@ export default function page() {
                     <h1 className='text-3xl  text-red-600 '>
                         <i className="fa-brands fa-facebook "></i>
                         <i className="fa-brands fa-twitter"></i>
-
+                        <i className="fa-solid fa-cart-shopping"></i>
                     </h1>
 
                 </div>

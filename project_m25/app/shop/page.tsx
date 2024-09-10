@@ -287,21 +287,30 @@ export default function Shop() {
             {/* MAIN */}
         </section>
         {
-            showFormEdit && <div className="modal" style={{ paddingLeft: 200 }}>
-                <div className="modal-content" onClick={e => e.stopPropagation()}>
+            showFormEdit && <div className="modal" style={{ paddingLeft: 600,   }}>
+                <div className="modal-content w-[300px] bg-pink-400 p-4"  onClick={e => e.stopPropagation()}>
                     <span className="close-btn" >&times;</span>
                     <form id="editProductForm" onSubmit={handleSubmit}>
-                        <h2 >  Sửa </h2>
+                        <h2 className='font-bold text-2xl text-center ' >  Sửa </h2>
                         <label htmlFor="productName">Tên:</label>
-                        <input type="text" id="productName" name="name" required onChange={handleChange} value={productEdit?.name} />
-
+                        <br />
+                        <input className='border border-white rounded bg-pink-100 w-[260px]' type="text" id="productName" name="name" required onChange={handleChange} value={productEdit?.name} />
+                        <br />
+                        <br />
                         <label htmlFor="productPrice">Giá:</label>
-                        <input type="number" id="productPrice" name="price" required onChange={handleChange} value={productEdit?.price} />
-
+                        <br />
+                        <input className='border border-white rounded bg-pink-100 w-[260px]' type="number" id="productPrice" name="price" required onChange={handleChange} value={productEdit?.price} />
+                        <br />
+                        <br />
                         <label htmlFor="productDescription">Ảnh:</label>
-                        <input id="productDescription" name="img" type='text' required onChange={handleChange} value={productEdit?.img}></input>
+                        <br />
+                        <input className='border border-white rounded bg-pink-100 w-[260px]' id="productDescription" name="img" type='text' required onChange={handleChange} value={productEdit?.img}></input>
+                        <br />
+                        <br />
+                        <div className='text-center'>
+                             <button className='border border-white rounded bg-pink-100 w-[100px]' type="submit">Lưu</button>
 
-                        <button type="submit">Lưu</button>
+                        </div>
                     </form>
                 </div>
             </div>
