@@ -17,6 +17,7 @@ export default function page() {
     const users = useSelector((state: any) => state.userStore.user)
     const route = useRouter();
     const dispatch = useDispatch();
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         dispatch(getAllProduct());
@@ -57,19 +58,19 @@ export default function page() {
             // navigate("/login");
         }
     };
-    const hadleMall=()=>{
+    const hadleMall = () => {
         route.push("/cupcakeMall")
     }
-    const hadleBig=()=>{
+    const hadleBig = () => {
         route.push("/cupcakeBig")
     }
-    const hadleNew=()=>{
+    const hadleNew = () => {
         route.push("/cupcakeNew")
     }
-    const hadleLogin=()=>{
+    const hadleLogin = () => {
         route.push("/login-user")
     }
-  
+
     return (
         <div className='bg-red-400 w-auto h-auto'>
             <div className='bg-yellow-50 ' >
@@ -84,21 +85,32 @@ export default function page() {
                 </div>
                 {
                     account ? <>
-                   
-                        <p className='ml-[1000px] ' >
-                            
-                                    <div className='text-sm flex items-center gap-1 '>
-                                     <div className=' bg-red-500 w-[100px] h-[40px] text-yellow-50 rounded p-2 text-center font-bold'> <i className="fa-solid fa-circle-user "></i>{account.name}  </div>
 
-                                        {/* <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button> */}
-                                       
-                                       <div className='mb-5'>
-                                            <button onClick={handleLogout} className='bg-red-500 w-[100px] text-yellow-50 rounded p-2 '>Đăng xuất</button>
-                                        </div> 
+                        <p className='ml-[800px] ' >
+
+                            <div className='text-sm flex items-center gap-5 '>
+                                {isOpen &&
+                                    <div className='border-2 border-red-800 bg-yellow-50 rounded w-[300px] p-3'>
+                                        <h1 className='font-bold text-red-800 text-[15px]'><i className="fa-solid fa-circle-user "></i>THÔNG TIN CỦA BẠN</h1>
+                                       <span> <b className='text-red-400'>Tên: </b> {account.name}</span>
+                                       <br />
+                                       <span> <b className='text-red-400'>Email:</b> {account.email}</span>
+                                       <br />
+                                       <span> <b className='text-red-400'>Mật khẩu:</b> {account.password}</span>
                                     </div>
-                                
+                                }
+                                <div onClick={() => setIsOpen(prev => !prev)} className=' bg-red-500 w-[100px] h-[40px] text-yellow-50 rounded p-2 text-center font-bold'> <i className="fa-solid fa-circle-user "></i>{account.name}  </div>
+
+
+                                {/* <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button> */}
+
+                                <div className='mb-5'>
+                                    <button onClick={handleLogout} className='bg-red-500 w-[100px] text-yellow-50 rounded p-2 '>Đăng xuất</button>
+                                </div>
+                            </div>
+
                         </p>
-                     </>:<>
+                    </> : <>
                         <div className='ml-[1070px]'>
                             <div className='text-sm  flex gap-5  '>
                                 <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button>
@@ -107,10 +119,7 @@ export default function page() {
                         </div>
                     </>
                 }
-                <p className='font-bold'>-------------------------------------------------------------------------------------------------------------------------------------------
-                    <i className="fa-solid fa-cake-candles text-3xl text-red-600  "></i>
-                    -<i className="fa-solid fa-gift text-3xl text-pink-600"></i>
-                    -<i className="fa-solid fa-heart text-3xl text-red-900"></i>---------------------------------------
+                <p className='font-bold'>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 </p>
                 <br />
                 <ul className='flex gap-14 justify-center  text-red-900  '>
@@ -293,6 +302,7 @@ export default function page() {
                 </p>
 
             </div>
+
         </div>
     )
 }

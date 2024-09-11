@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 import { addCarts, getAllProduct, getProductById } from '@/app/store/product/productStore';
 import { getAllUser } from '../../store/user/userStore';
-import { useParams } from 'react-router-dom';
-import { Product } from '@/app/interface/product';
+// import { useParams } from 'react-router-dom';
+// import { Product } from '@/app/interface/product';
 // import 'swiper/swiper-bundle.min.css';
 export default function page() {
     const [account, setAccount] = useState(JSON.parse(localStorage.getItem("account") || "null"));
@@ -57,8 +57,8 @@ export default function page() {
             // navigate("/login");
         }
     };
-    const pathName = usePathname(); // Get path name from Next.js
-    const id = pathName.split("/").pop(); // Extract ID from the URL
+    const pathName = usePathname(); 
+    const id = pathName.split("/").pop(); 
     const cupcakes: any = useSelector(((state: any) => state.productStore.productDetail))
     console.log(cupcakes)
 
