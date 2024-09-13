@@ -3,32 +3,17 @@ import React, { useEffect, useState } from 'react'
 import { Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import '../login-user/page'
-import "../detail/[id]/page"
+// import '../login-user/page'
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { addCarts, getAllProduct, updateProduct } from '../store/product/productStore';
-import { getAllUser } from '../store/user/userStore';
-import { addToCart, getCartProduct, updatedCart } from '@/services/cart.service';
-// import 'swiper/swiper-bundle.min.css';
+import { getCartProduct, updateProductQuantity } from '@/services/cart.service';
+import { useParams } from 'react-router-dom';
 export default function page() {
+    const { id } = useParams()
     const cart = useSelector((state: any) => state.cartReducer.cart);
     console.log(12314, cart);
     const user = JSON.parse(localStorage.getItem("account") || "[]")
-    const [account, setAccount] = useState(JSON.parse(localStorage.getItem("account") || "null"));
-    const cupcake: any = useSelector(((state: any) => state.productStore.list));
-    //   const cart = useSelector((state: any) => state.productReducer.cart);
-    const users = useSelector((state: any) => state.userStore.user)
-    const route = useRouter();
-    const dispatch = useDispatch();
-    const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        dispatch(getAllProduct());
-        // Lấy giỏ hàng từ localStorage và set vào Redux state
-        // dispatch(setCart(account.cart));
-        dispatch(getAllUser())
-    }, [dispatch]);
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (user.id) {
@@ -36,115 +21,33 @@ export default function page() {
         }
     }, [dispatch, user.id])
 
-    const handleDetail = (id: number) => {
-        console.log(id);
-        route.push(`/detail/${id}`);
+    const total = cart.reduce((total: number, cart: any) => {
+        return total + cart.product.price * cart.product.quantity
+    }, 0)
+
+    const handleQuantityChange = (itemId: number, newQuantity: number) => {
+        const idUser = id; // Lấy idUser từ useParams
+
+        if (newQuantity < 1) return; // Đảm bảo số lượng ít nhất là 1
+
+        // Dispatch action để cập nhật số lượng
+        dispatch(updateProductQuantity({ itemId, quantity: newQuantity, idUser }))
+            .unwrap()
+            .then(() => {
+                console.log("Quantity updated successfully");
+            })
+            .catch((error: any) => {
+                console.error("Error updating quantity:", error);
+            });
     };
 
-    const handleLogout = () => {
-        const confirmLogOut = window.confirm("Bạn có chắc chắn muốn đăng xuất không?");
-        if (confirmLogOut) {
-            localStorage.removeItem("account");
-            route.push("/login-user");
-            setAccount(null);
-        }
+    const handleInputChange = (
+        event: React.ChangeEvent<HTMLInputElement>,
+        itemId: number
+    ) => {
+        const newQuantity = parseInt(event.target.value, 10);
+        handleQuantityChange(itemId, newQuantity);
     };
-
-
-
-    const handleAddToCart =async (product: any) => {
-        if (account) {
-            const findUser = users.find((user: any) => user.id === account.id);
-            if (findUser) {
-                if (findUser.status === 1) {
-                    alert("tài khoản đã bị chặn")
-                } else {
-                    const confirmAddCart = window.confirm("Thêm vào giỏ hàng thành công!!");
-                    const existProduct = cart.find(
-
-                        (item: any) => item.product.id === product.id
-                    );
-                    if (existProduct) {
-                        const updatedProduct = {
-                            ...existProduct,
-                            product: {
-                                ...existProduct.product,
-                                quantity: existProduct.product.quantity + 1, // Increase the quantity
-                            },
-                        };
-                        await dispatch(updatedCart(updatedProduct))
-                    } else {
-                        const newCart = {
-                            idUser: user.id,
-                            product: {
-                                id: product.id,
-                                name: product.name,
-                                img: product.img,
-                                describe: product.describe,
-                                expression: product.expression,
-                                quantity: 1,
-                                price: product.price
-                            }
-                        }
-                        await dispatch(addToCart(newCart))
-                    }
-                }
-            }
-
-        } else {
-            // Xử lý khi người dùng chưa đăng nhập
-            alert("Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!");
-            // navigate("/login");
-        }
-    };
-
-    // const handleAddToCart = async (product: any) => {
-    //     const confirmAddCart = window.confirm("Thêm vào giỏ hàng thành công!!");
-    //     const existProduct = cart.find(
-
-    //         (item: any) => item.product.id === product.id
-    //     );
-    //     if (existProduct) {
-    //         const updatedProduct = {
-    //             ...existProduct,
-    //             product: {
-    //                 ...existProduct.product,
-    //                 quantity: existProduct.product.quantity + 1, // Increase the quantity
-    //             },
-    //         };
-    //         await dispatch(updatedCart(updatedProduct))
-    //     } else {
-    //         const newCart = {
-    //             idUser: user.id,
-    //             product: {
-    //                 id: product.id,
-    //                 name: product.name,
-    //                 img: product.img,
-    //                 describe: product.describe,
-    //                 expression: product.expression,
-    //                 quantity: 1,
-    //                 price: product.price
-    //             }
-    //         }
-    //         await dispatch(addToCart(newCart))
-    //     }
-    // };
-    const hadleMall = () => {
-        route.push("/cupcakeMall")
-    }
-    const hadleBig = () => {
-        route.push("/cupcakeBig")
-    }
-    const hadleNew = () => {
-        route.push("/cupcakeNew")
-    }
-    const hadleLogin = () => {
-        route.push("/login-user")
-    }
-    const hadleCart = (id: number) => {
-        route.push(`/cart/${id}`)
-    }
-
     return (
         <div className='bg-red-400 w-auto h-auto'>
             <div className='bg-yellow-50 ' >
@@ -153,61 +56,19 @@ export default function page() {
                     <h1 className='text-3xl  text-red-600 '>
                         <i className="fa-brands fa-facebook "></i>
                         <i className="fa-brands fa-twitter"></i>
-                        <i onClick={() => hadleCart(user.id)} className="fa-solid fa-cart-shopping">{cart.length}</i>
+                        <i className="fa-solid fa-cart-shopping"></i>
                     </h1>
 
                 </div>
-                {
-                    account ? <>
 
-                        <p className='ml-[800px] ' >
-
-                            <div className='text-sm flex items-center gap-5 '>
-                                {isOpen &&
-                                    <div className='border-2 border-red-800 bg-yellow-50 rounded w-[300px] p-3'>
-                                        <h1 className='font-bold text-red-800 text-[15px]'><i className="fa-solid fa-circle-user "></i>THÔNG TIN CỦA BẠN</h1>
-                                        <span> <b className='text-red-400'>Tên: </b> {account.name}</span>
-                                        <br />
-                                        <span> <b className='text-red-400'>Email:</b> {account.email}</span>
-                                        <br />
-                                        <span> <b className='text-red-400'>Mật khẩu:</b> {account.password}</span>
-                                    </div>
-                                }
-                                <div onClick={() => setIsOpen(prev => !prev)} className=' bg-red-500 w-[100px] h-[40px] text-yellow-50 rounded p-2 text-center font-bold'> <i className="fa-solid fa-circle-user "></i>{account.name}  </div>
-
-
-                                {/* <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button> */}
-
-                                <div className='mb-5'>
-                                    <button onClick={handleLogout} className='bg-red-500 w-[100px] text-yellow-50 rounded p-2 '>Đăng xuất</button>
-                                </div>
-                            </div>
-
-                        </p>
-                    </> : <>
-                        <div className='ml-[1070px]'>
-                            <div className='text-sm  flex gap-5  '>
-                                <button onClick={hadleLogin} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng nhập</button>
-                                {/* <button onClick={handleLogout} className='bg-red-500 text-yellow-50 rounded p-2 '>Đăng xuất</button> */}
-                            </div>
-                        </div>
-                    </>
-                }
                 <p className='font-bold'>--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                 </p>
-                <br />
-                <ul className='flex gap-14 justify-center  text-red-900  '>
-                    <li>Trang chủ</li>
-                    <li onClick={hadleNew}>Mới ra mắt</li>
-                    <li onClick={hadleBig}>Bánh cỡ lớn</li>
-                    <li onClick={hadleMall}>Bánh cỡ nhỏ</li>
-                </ul>
-                <br />
+
 
             </div>
             <br />
 
-            <div >
+            {/* <div >
 
                 <Swiper
                     spaceBetween={30}
@@ -256,29 +117,56 @@ export default function page() {
                 </Swiper>
             </div>
             <br />
-            <br />
+            <br /> */}
             {/* render sản phẩm */}
-            <div className='flex flex-wrap gap-[30px]   justify-center '>
-                {cupcake.map((item: any) => {
-                    return <div className=' border border-w bg-yellow-50 w-[250px] p-3 rounded'>
-                        <b className=' text-red-800'> <i className="fa-solid fa-star"></i>{item.name}</b>
 
-                        <img onClick={() => handleDetail(item.id)} className='w-[250px] h-[200px]' src={item.img} alt="" />
+            <div className='flex justify-center'>
 
+                <table className='border-2 border-yellow-500 bg-yellow-50  w-[1090px] text-center items-center'>
+                    <thead className='border border-yellow-50'>
+                        <tr className='text-xl'>
+                            <th>Sản phẩm</th>
+                            <th>Ảnh</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody className='border-2 border-yellow-500 '>
+                        {
+                            cart.map((item: any) => (
+                                <tr className='text-red-700'>
+                                    <td>{item.product.name}</td>
+                                    <td >
+                                        <img className='w-[250px] h-[200px] ml-36' src={item.product.img} alt="" />
+                                    </td>
+                                    <td>{item.product.price}</td>
+                                    <td className='flex w-[100px] ml-10 items-center mt-20'>
+                                        <button className='bg-red-400 w-[20px] h-[26px] ml-4' onClick={() =>
+                                            handleQuantityChange(item.id, item.product.quantity - 1)
+                                        }>-</button>
+                                        <input className='w-[50px] text-center ' type="text" value={item.product.quantity} name='quantity' min="1"
+                                            onChange={(e) => handleInputChange(e, item.id)} />
+                                        <button className='bg-red-400 w-[20px] h-[26px]' onClick={() =>
+                                            handleQuantityChange(item.id, item.product.quantity + 1)
+                                        }>+</button>
 
-                        <div className='flex items-center gap-2 text-red-500'><i className="fa-solid fa-heart"></i>
-                            <p>{item.describe}</p>
-                        </div>
-                        <p className='text-red-500 font-bold'>----------------------------------</p>
-                        <b className='flex justify-center items-center'><i className="fa-solid fa-money-bill"></i> {item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}
-
-                            <button onClick={() => handleAddToCart(item)} className='border bg-red-500 p-1 rounded w-[80px] text-white'><i className="fa-solid fa-cart-shopping"></i></button>
-                        </b>
-
-                    </div>
-                })}
-                {/*  */}
+                                    </td>
+                                    <td>{item.product.price * item.product.quantity}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
             </div>
+            <div className='flex justify-center '>
+                <div className='border-2 border-yellow-500 bg-yellow-50 w-[1090px] font-bold text-red-800'>
+                    Tổng: <span className='ml-[940px]'>{total} VNĐ</span>
+                </div>
+            </div>
+
+
+
             <br />
             <div className='flex justify-center'>
                 <b className='text-red-900' >-------------------------------------------------------------------------------------------------------------------------------------------------------------------------</b>

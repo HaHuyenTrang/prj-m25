@@ -40,13 +40,15 @@
       "email": "quynh11111@gmail.com",
       "name": "quynh",
       "password": "2005",
-      "id": 6
+      "id": 6,
+      "status": 0
     },
     {
       "email": "lenem123@gmail.com",
       "name": "lananh",
       "password": "11111",
-      "id": 7
+      "id": 7,
+      "status": 0
     }
   ],
   "products": [
@@ -138,6 +140,50 @@
       "describe": "bánh kèm nến, như 1 điều ước nho nhỏ, ngọt ngào",
       "expression": "set bánh",
       "price": 700
+    }
+  ],
+  "carts": [
+    {
+      "idUser": 6,
+      "product": {
+        "id": 1,
+        "name": "June Prontotiob",
+        "img": "https://static.salekit.com/image/shop/2/source/kinh-doanh-banh-ngot.jpg",
+        "describe": "đáy bông lan và kem trứng, dâu trang trí bên trên",
+        "expression": "vừa ra mắt",
+        "quantity": 1,
+        "price": 19000
+      },
+      "id": 1,
+      "quantity": 2
+    },
+    {
+      "idUser": 6,
+      "product": {
+        "id": 2,
+        "name": "D#D Gapeoke",
+        "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSczFoiCDjHROKhsslgziyQpoEF_6K8TjyKsx-Qs9yGYe2PjLQTCFIlJuAtsbBAIUb80O8&usqp=CAU",
+        "describe": "hộp bánh kép, kẹp nhân dai dẻo, mềm mịn",
+        "expression": "loại nhỏ",
+        "quantity": 4,
+        "price": 50000
+      },
+      "id": 2,
+      "quantity": 4
+    },
+    {
+      "idUser": 6,
+      "product": {
+        "id": 3,
+        "name": "Happy Aniversary",
+        "img": "https://tiembanhkimnhu.com/wp-content/uploads/2024/03/set-banh-ngot-ngao-danh-cho-ngay-quoc-te-phu-nux.jpg",
+        "describe": "bánh kèm nến, như 1 điều ước nho nhỏ, ngọt ngào",
+        "expression": "loại nhỏ",
+        "quantity": 1,
+        "price": 70000
+      },
+      "id": 3,
+      "quantity": 2
     }
   ]
 }
