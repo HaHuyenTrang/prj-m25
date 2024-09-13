@@ -5,7 +5,7 @@ import "../product/page"
 import '../admin/page'
 import "../shop/addProduct/page"
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct, getAllProduct, updateProduct } from '../store/product/productStore';
+import { deleteProduct, getAllProduct, searchProduct, updateProduct } from '../store/product/productStore';
 import { Product } from '../interface/product';
 import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/navigation';
@@ -13,6 +13,9 @@ import { useRouter } from 'next/navigation';
 // import './admin'
 
 export default function Shop() {
+    const product = useSelector(((state: any) => state.productStore.list));
+    const [search, setSearch] = useState<string>("");
+    const [filteredProduct, setFilteredProduct] = useState<Product[]>([]);
     const route = useRouter()
     const [showFormEdit, setShowFormEdit] = useState<boolean>(false)
     const cupcake: any = useSelector(((state: any) => state.productStore.list))
@@ -67,11 +70,22 @@ export default function Shop() {
     const handleClick = () => {
         route.push("/shop/addProduct")
     }
+    // hàm tìm kiêm
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const searchValue = e.target.value;
+        setSearch(searchValue);
 
-    const handleSearchUser=()=>{
+        if (!searchValue) {
+            setFilteredProduct(product);
+        } else {
+            const result = await disPatch(searchProduct(searchValue));
+            setFilteredProduct(result.payload);
+        }
+    };
+    useEffect(() => {
+        setFilteredProduct(product);
+    }, [product]);
 
-    }
-    
     return (<>
         {/* SIDEBAR */}
         <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css"></link>
@@ -138,7 +152,7 @@ export default function Shop() {
                 </a>
                 <form action="#">
                     <div className="form-input">
-                        <input type="search" placeholder="Tìm kiếm..." />
+                        <input type="search" placeholder="Tìm kiếm..." onChange={handleSearch} value={search} />
                         <button type="submit" className="search-btn" style={{ margin: 0 }}>
                             <i className="bx bx-search" />
                         </button>
@@ -222,12 +236,12 @@ export default function Shop() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {cupcake.map((item: any) => {
+                                {filteredProduct.map((item: any) => {
 
                                     return (
 
                                         <tr className='item-flower' key={item.id}  >
-                                            <td style={{ marginTop: "15%", marginBottom:"40px" }}>{item.name}</td>
+                                            <td style={{ marginTop: "15%", marginBottom: "40px" }}>{item.name}</td>
                                             <td
                                                 style={{ textAlign: "start" }}><b className='cl-price'>{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</b>
                                             </td>
@@ -287,8 +301,8 @@ export default function Shop() {
             {/* MAIN */}
         </section>
         {
-            showFormEdit && <div className="modal" style={{ paddingLeft: 600,   }}>
-                <div className="modal-content w-[300px] bg-pink-400 p-4"  onClick={e => e.stopPropagation()}>
+            showFormEdit && <div className="modal" style={{ paddingLeft: 600, }}>
+                <div className="modal-content w-[300px] bg-pink-400 p-4" onClick={e => e.stopPropagation()}>
                     <span className="close-btn" >&times;</span>
                     <form id="editProductForm" onSubmit={handleSubmit}>
                         <h2 className='font-bold text-2xl text-center ' >  Sửa </h2>
@@ -308,13 +322,13 @@ export default function Shop() {
                         <br />
                         <br />
                         <div className='text-center'>
-                             <button className='border border-white rounded bg-pink-100 w-[100px]' type="submit">Lưu</button>
+                            <button className='border border-white rounded bg-pink-100 w-[100px]' type="submit">Lưu</button>
 
                         </div>
                     </form>
                 </div>
             </div>
-            
+
         }
         {/* CONTENT */}
     </>)

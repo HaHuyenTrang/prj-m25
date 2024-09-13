@@ -35,6 +35,11 @@ export const addCarts: any = createAsyncThunk("products/addCart", async (id: num
     const response = await axios.get(`http://localhost:8080/products/${id}`);
     return response.data
 })
+// tìm kiếm product
+export const searchProduct:any=createAsyncThunk("products/searchProduct", async(search:string)=>{
+    const response = await axios.get(`http://localhost:8080/products?name_like=${search}`);
+    return response.data
+})
 
 const productStore=createSlice({
     name:"productStore",
