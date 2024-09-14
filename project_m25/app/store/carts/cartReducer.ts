@@ -1,4 +1,4 @@
-import { addToCart, getCartProduct, updatedCart, updateProductQuantity } from "@/services/cart.service";
+import { addToCart, deleteCart, getCartProduct, updatedCart, updateProductQuantity } from "@/services/cart.service";
 import { createSlice } from "@reduxjs/toolkit";
 
 const cartState: any = [];
@@ -34,7 +34,12 @@ const cartReducer = createSlice({
               productToUpdate.product.quantity = quantity; // Cập nhật số lượng trong state
               state.totalPrice += productToUpdate.product.price * quantity; // Cập nhật tổng số tiền
             }
-          });
+          })
+          .addCase(deleteCart.fulfilled,(state,action)=>{
+            state.cart=state.cart.filter((item:any)=>{
+                return item.id!==action.payload
+            })
+        });
     }
 })
 

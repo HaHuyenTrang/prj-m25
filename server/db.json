@@ -81,7 +81,7 @@
       "name": "June Kitkat",
       "img": "https://statics.vincom.com.vn/xu-huong/0-0-0-0-tiem-banh-kem-can-tho/image12.png",
       "describe": "đáy bông lan và kem trứng, dâu trang trí bên trên",
-      "expression": "loại nhỏ",
+      "expression": "loại to",
       "price": 19000
     },
     {
@@ -105,6 +105,7 @@
       "name": "M&R Orio",
       "price": 70000,
       "describe": "đáy bông lan và kem trứng, dâu trang trí bên trên",
+      "expression": "loại nhỏ",
       "img": "https://file.hstatic.net/200000079049/file/cong-thuc-lam-tiramisu_e9b100c536c5412f8c4e73257d99e38c_grande.jpg"
     },
     {
@@ -130,7 +131,7 @@
       "name": "D#D Gapeoke",
       "img": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSczFoiCDjHROKhsslgziyQpoEF_6K8TjyKsx-Qs9yGYe2PjLQTCFIlJuAtsbBAIUb80O8&usqp=CAU",
       "describe": "hộp bánh kép, kẹp nhân dai dẻo, mềm mịn",
-      "expression": "bánh kép",
+      "expression": "vừa ra mắt",
       "price": 1100
     },
     {
@@ -138,25 +139,11 @@
       "name": "Happy Aniversary",
       "img": "https://tiembanhkimnhu.com/wp-content/uploads/2024/03/set-banh-ngot-ngao-danh-cho-ngay-quoc-te-phu-nux.jpg",
       "describe": "bánh kèm nến, như 1 điều ước nho nhỏ, ngọt ngào",
-      "expression": "set bánh",
+      "expression": "loại nhỏ",
       "price": 700
     }
   ],
   "carts": [
-    {
-      "idUser": 6,
-      "product": {
-        "id": 1,
-        "name": "June Prontotiob",
-        "img": "https://static.salekit.com/image/shop/2/source/kinh-doanh-banh-ngot.jpg",
-        "describe": "đáy bông lan và kem trứng, dâu trang trí bên trên",
-        "expression": "vừa ra mắt",
-        "quantity": 1,
-        "price": 19000
-      },
-      "id": 1,
-      "quantity": 2
-    },
     {
       "idUser": 6,
       "product": {
@@ -169,21 +156,20 @@
         "price": 50000
       },
       "id": 2,
-      "quantity": 4
+      "quantity": 5
     },
     {
       "idUser": 6,
       "product": {
-        "id": 3,
-        "name": "Happy Aniversary",
-        "img": "https://tiembanhkimnhu.com/wp-content/uploads/2024/03/set-banh-ngot-ngao-danh-cho-ngay-quoc-te-phu-nux.jpg",
-        "describe": "bánh kèm nến, như 1 điều ước nho nhỏ, ngọt ngào",
-        "expression": "loại nhỏ",
+        "id": 5,
+        "name": "D#D Trupk",
+        "img": "https://digiticket.vn/blog/wp-content/uploads/2021/07/banh-kem-sai-gon-1.jpg",
+        "describe": "hộp bánh kép, kẹp nhân dai dẻo, mềm mịn",
+        "expression": "loại to",
         "quantity": 1,
-        "price": 70000
+        "price": 50000
       },
-      "id": 3,
-      "quantity": 2
+      "id": 4
     }
   ]
 }

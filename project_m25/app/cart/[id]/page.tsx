@@ -6,8 +6,9 @@ import "swiper/css";
 // import '../login-user/page'
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
-import { getCartProduct, updateProductQuantity } from '@/services/cart.service';
+import { deleteCart, getCartProduct, updatedCart, updateProductQuantity } from '@/services/cart.service';
 import { useParams } from 'react-router-dom';
+import { atRule } from 'postcss';
 export default function page() {
     const { id } = useParams()
     const cart = useSelector((state: any) => state.cartReducer.cart);
@@ -39,6 +40,8 @@ export default function page() {
             .catch((error: any) => {
                 console.error("Error updating quantity:", error);
             });
+        dispatch(updatedCart())
+
     };
 
     const handleInputChange = (
@@ -48,6 +51,17 @@ export default function page() {
         const newQuantity = parseInt(event.target.value, 10);
         handleQuantityChange(itemId, newQuantity);
     };
+    // hàm xóa
+    const handleDelete = (id: number) => {
+        let confirmDelete = window.confirm("bạn có muốn xóa sản phẩm này???")
+        if (confirmDelete) {
+            dispatch(deleteCart(id))
+            console.log(id);
+            dispatch(updatedCart())
+            // dispatch(getCartProduct(user.id))
+
+        }
+    }
     return (
         <div className='bg-red-400 w-auto h-auto'>
             <div className='bg-yellow-50 ' >
@@ -56,7 +70,7 @@ export default function page() {
                     <h1 className='text-3xl  text-red-600 '>
                         <i className="fa-brands fa-facebook "></i>
                         <i className="fa-brands fa-twitter"></i>
-                        <i className="fa-solid fa-cart-shopping"></i>
+                        <i className="fa-solid fa-cart-shopping">{cart.length}</i>
                     </h1>
 
                 </div>
@@ -130,6 +144,7 @@ export default function page() {
                             <th>Giá</th>
                             <th>Số lượng</th>
                             <th>Thành tiền</th>
+                            <th>Chức năng</th>
                         </tr>
                     </thead>
                     <tbody className='border-2 border-yellow-500 '>
@@ -153,6 +168,9 @@ export default function page() {
 
                                     </td>
                                     <td>{item.product.price * item.product.quantity}</td>
+                                    <td>
+                                        <button onClick={() => handleDelete(item.product.id)} className='border border-red-600 p-1 w-[50px] rounded'>Xóa</button>
+                                    </td>
                                 </tr>
                             ))
                         }

@@ -25,6 +25,15 @@ export const updatedCart: any = createAsyncThunk(
     }
   );
 
+  export const deleteCart: any = createAsyncThunk(
+    "carts/deleteCart",
+    async (id: number) => {
+      const response = await axios.delete(`http://localhost:8080/carts/${id}`);
+      return id;
+    }
+)
+
+
   export const updateProductQuantity: any = createAsyncThunk(
     "cart/updateProductQuantity",
     async (
